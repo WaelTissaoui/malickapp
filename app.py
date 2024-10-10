@@ -11,10 +11,11 @@ os.environ["OPENAI_API_KEY"] = "your-openai-api-key"
 # Connect to the Neo4j database
 graph = Graph("neo4j+s://your-neo4j-url", auth=("neo4j", "your-password"))
 
-# Define a function to create a modern, clickable card with styling in the sidebar
-def create_clickable_card_sidebar(title, description, icon, key):
+# Define a function to create a modern, clickable card with a professional icon from Font Awesome in the sidebar
+def create_clickable_card_sidebar(title, description, icon_class, key):
     hover_style = """
     <style>
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
     .card {
         display: block;
         border-radius: 12px;
@@ -26,6 +27,7 @@ def create_clickable_card_sidebar(title, description, icon, key):
         text-decoration: none;
         color: black;
         font-family: Arial, sans-serif;
+        text-align: center;
     }
     .card:hover {
         background-color: #f5f5f5;
@@ -34,22 +36,29 @@ def create_clickable_card_sidebar(title, description, icon, key):
         cursor: pointer;
     }
     .card h3 {
-        margin: 0;
+        margin: 10px 0;
+        font-size: 1.2em;
+        font-weight: bold;
     }
     .card p {
         margin: 5px 0 0;
+        font-size: 0.9em;
+        color: #555;
     }
-    .card a {
-        text-decoration: none;
-        color: inherit;
+    .card-icon {
+        font-size: 40px;
+        margin-bottom: 10px;
+        color: #4CAF50; /* You can change the color for each card if needed */
     }
     </style>
     """
     st.sidebar.markdown(hover_style, unsafe_allow_html=True)
 
+    # Create a card with a professional Font Awesome icon centered at the top
     card_html = f"""
     <div class="card" onclick="window.location.href='/?card={key}'">
-        <h3>{icon} {title}</h3>
+        <div class="card-icon"><i class="{icon_class}"></i></div>
+        <h3>{title}</h3>
         <p>{description}</p>
     </div>
     """
@@ -139,10 +148,10 @@ def init_ui():
     # Sidebar
     st.sidebar.title("Explore Predefined Agents")
 
-    # Create clickable cards in the sidebar for each agent
-    create_clickable_card_sidebar("Cosmetics Agent", "Interact with a dataset on cosmetics ingredients and their effects", "💄", key="cosmetics")
-    create_clickable_card_sidebar("Healthcare Agent", "Interact with healthcare data including patient histories", "🩺", key="healthcare")
-    create_clickable_card_sidebar("FoodTech Agent", "Interact with data on food technology innovations", "🍔", key="foodtech")
+    # Create clickable cards in the sidebar for each agent with centered icons from Font Awesome
+    create_clickable_card_sidebar("Cosmetics Agent", "Interact with a dataset on cosmetics ingredients and their effects", "fas fa-flask", key="cosmetics")
+    create_clickable_card_sidebar("Healthcare Agent", "Interact with healthcare data including patient histories", "fas fa-stethoscope", key="healthcare")
+    create_clickable_card_sidebar("FoodTech Agent", "Interact with data on food technology innovations", "fas fa-utensils", key="foodtech")
 
     # Check URL parameters to identify which card was clicked
     query_params = st.experimental_get_query_params()
