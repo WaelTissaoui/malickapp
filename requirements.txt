@@ -1,0 +1,6 @@
+streamlit
+langchain
+openai
+py2neo
+tiktoken
+langchain_community
