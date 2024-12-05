@@ -9,7 +9,7 @@ OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
 
 # Connect to the Neo4j database
-graph = Graph("bolt://localhost:7689", auth=("neo4j", "Abdourahmane"))
+graph = Graph("neo4j+s://your-neo4j-url", auth=("neo4j", "your-password"))
 
 # Define a function to create a modern, clickable card with a professional icon from Font Awesome in the sidebar
 def create_clickable_card_sidebar(title, description, icon_class, key):
