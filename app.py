@@ -5,11 +5,11 @@ from langchain.chat_models import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from py2neo import Graph
 
-# Configure OpenAI API key
-os.environ["OPENAI_API_KEY"] = "your-openai-api-key"
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+
 
 # Connect to the Neo4j database
-graph = Graph("neo4j+s://your-neo4j-url", auth=("neo4j", "your-password"))
+graph = Graph("bolt://localhost:7689", auth=("neo4j", "Abdourahmane"))
 
 # Define a function to create a modern, clickable card with a professional icon from Font Awesome in the sidebar
 def create_clickable_card_sidebar(title, description, icon_class, key):
@@ -19,14 +19,14 @@ def create_clickable_card_sidebar(title, description, icon_class, key):
     .card {
         display: block;
         border-radius: 12px;
-        padding: 15px;
-        margin: 10px 0;
+        padding: 20px;
+        margin: 15px 0;
         background-color: white;
         box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         text-decoration: none;
         color: black;
-        font-family: Arial, sans-serif;
+        font-family: 'Arial', sans-serif;
         text-align: center;
     }
     .card:hover {
@@ -37,18 +37,28 @@ def create_clickable_card_sidebar(title, description, icon_class, key):
     }
     .card h3 {
         margin: 10px 0;
-        font-size: 1.2em;
+        font-size: 1.3em;
         font-weight: bold;
+        color: #333;
     }
     .card p {
         margin: 5px 0 0;
-        font-size: 0.9em;
-        color: #555;
+        font-size: 0.95em;
+        color: #777;
     }
     .card-icon {
         font-size: 40px;
         margin-bottom: 10px;
         color: #4CAF50; /* You can change the color for each card if needed */
+    }
+    .logo-container {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .logo-container img {
+        width: 150px; /* Adjust size for best look */
+        height: auto;
+        border-radius: 50%; /* Optionally make it rounded */
     }
     </style>
     """
@@ -145,9 +155,16 @@ def init_ui():
     st.set_page_config(page_title="D&A MedLabs Converse", layout="wide")
     st.title("D&A MedLabs Converse")
 
-    # Sidebar
-    st.sidebar.title("Explore Predefined Agents")
+    # Sidebar logo
+    st.sidebar.markdown("""
+    <div class="logo-container">
+        <img src="/home/ec2-user/TeamDataFiles/malick/malicklogo.png" alt="Logo">
+    </div>
+    """, unsafe_allow_html=True)
 
+    # Sidebar title
+    st.sidebar.title("Explore Predefined Agents")
+ 
     # Create clickable cards in the sidebar for each agent with centered icons from Font Awesome
     create_clickable_card_sidebar("Cosmetics Agent", "Interact with a dataset on cosmetics ingredients and their effects", "fas fa-flask", key="cosmetics")
     create_clickable_card_sidebar("Healthcare Agent", "Interact with healthcare data including patient histories", "fas fa-stethoscope", key="healthcare")
