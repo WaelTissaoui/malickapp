@@ -5,7 +5,7 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import TokenTextSplitter
 
 # Configurer la connexion à la base de données Neo4j
-graph = Graph("bolt://localhost:7689", auth=("neo4j", "Abdourahmane"))
+graph = Graph("neo4j+s://your-neo4j-url", auth=("neo4j", "your-password"))
 
 def importer_pdf_et_creer_noeuds(pdf_path):
     """Importe le contenu d'un fichier PDF et crée des nœuds dans Neo4j."""
